@@ -12,7 +12,7 @@ EventMachine.run do
   puts "Connected to AMQP broker. Running #{AMQP::VERSION} version of the gem..."
 
   channel  = AMQP::Channel.new(connection)
-  queue    = channel.queue("amqpgem.examples.helloworld", :auto_delete => true)
+  queue    = channel.queue(runner.options[:queue], :auto_delete => true)
   exchange = channel.direct("")
 
   queue.subscribe do |payload|
