@@ -19,6 +19,8 @@ class Runner
       opts.on("-p", "--port PORT", "AMQP PORT") { |port| @options[:port] = port.to_i }
       opts.on("-q", "--queue QUEUE","AMQP Queue to use") { |queue| @options[:queue] = queue }
       opts.on("-u", "--user USER","AMQP User to connect as") { |user| @options[:user] = user }
+
+      opts.on("-r", "--require LIBRARY","Require the provided library before starting") { |lib| require lib }
       # ... and on
     end
   end

@@ -65,7 +65,13 @@ describe Runner do
 
   it "should abort on unknown command"
   it "should exiit on empty command"
-  it "should require file"
+
+  it "should require file" do
+    expect do
+      Runner.new(%w(start -r unexisting))
+    end.to raise_error(LoadError)
+  end
+
   it "should remember requires"
   it "should remember debug options"
   it "should default debug, silent and trace to false"
