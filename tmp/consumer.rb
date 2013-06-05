@@ -5,7 +5,6 @@ require "rubygems"
 require "amqp"
 
 require './lib/runner'
-
 runner = Runner.new(ARGV)
 
 EventMachine.run do
@@ -20,6 +19,4 @@ EventMachine.run do
     puts "Received a message: #{payload}. Disconnecting..."
     connection.close { EventMachine.stop }
   end
-
-  exchange.publish "Hello, world!", :routing_key => queue.name
 end
