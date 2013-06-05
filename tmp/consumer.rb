@@ -8,7 +8,7 @@ require './lib/runner'
 runner = Runner.new(ARGV)
 
 EventMachine.run do
-  connection = AMQP.connect(:host => runner.options[:host])
+  connection = AMQP.connect(runner.connection_options)
   puts "Connected to AMQP broker. Running #{AMQP::VERSION} version of the gem..."
 
   channel  = AMQP::Channel.new(connection)
