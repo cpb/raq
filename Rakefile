@@ -17,8 +17,8 @@ Jeweler::Tasks.new do |gem|
   gem.name = "raq"
   gem.homepage = "http://github.com/cpb/raq"
   gem.license = "MIT"
-  gem.summary = %Q{TODO: one-line summary of your gem}
-  gem.description = %Q{TODO: longer description of your gem}
+  gem.summary = %Q{Middleware for your AMQP Message Consumer}
+  gem.description = %Q{The elegance of Rack with none of the unreliability of HTTP}
   gem.email = "me@cpb.ca"
   gem.authors = ["Caleb Buxton"]
   # dependencies defined in Gemfile
