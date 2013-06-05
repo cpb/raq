@@ -1,7 +1,7 @@
 require 'spec_helper'
-require 'server'
+require 'raq/server'
 
-describe Server, 'app builder' do
+describe Raq::Server, 'app builder' do
   class ExampleMiddleware < Struct.new(:app)
     def call(meta,payload)
       self.app.call(meta,payload)
@@ -10,13 +10,13 @@ describe Server, 'app builder' do
 
   it "should build app from constructor" do
     app = proc {}
-    server = Server.new({queues: "queue.name"}, app)
+    server = described_class.new({queues: "queue.name"}, app)
 
     server.app.should == app
   end
 
   it "should build app from builder block" do
-    server = Server.new queues: "queue.name" do
+    server = described_class.new queues: "queue.name" do
       run(proc { |meta,payload| :works })
     end
 
@@ -24,7 +24,7 @@ describe Server, 'app builder' do
   end
 
   it "should use middlewares in builder block" do
-    server = Server.new queues: "queue.name" do
+    server = described_class.new queues: "queue.name" do
       use ExampleMiddleware
       run(proc { |meta,payload| :works })
     end

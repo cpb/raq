@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = "raq"
-  s.version = "0.0.0"
+  s.version = "0.0.3"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Caleb Buxton"]
@@ -25,10 +25,18 @@ Gem::Specification.new do |s|
     "Rakefile",
     "VERSION",
     "lib/raq.rb",
+    "lib/raq/runner.rb",
+    "lib/raq/server.rb",
+    "lib/raq/server/builder.rb",
     "raq.gemspec",
+    "spec/raq/runner_spec.rb",
+    "spec/raq/server_spec.rb",
     "spec/raq_spec.rb",
     "spec/spec_helper.rb",
-    "tmp/.gitkeep"
+    "tmp/.gitkeep",
+    "tmp/consumer.rb",
+    "tmp/producer.rb",
+    "tmp/rack_hack.rb"
   ]
   s.homepage = "http://github.com/cpb/raq"
   s.licenses = ["MIT"]
@@ -42,16 +50,20 @@ Gem::Specification.new do |s|
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
       s.add_runtime_dependency(%q<eventmachine>, ["~> 1.0"])
       s.add_runtime_dependency(%q<amqp>, ["~> 1.0"])
+      s.add_development_dependency(%q<sinatra>, [">= 0"])
       s.add_development_dependency(%q<bundler>, ["~> 1.3.0"])
       s.add_development_dependency(%q<jeweler>, ["~> 1.8.4"])
+      s.add_development_dependency(%q<pry>, [">= 0"])
       s.add_development_dependency(%q<rdoc>, ["~> 3.12"])
       s.add_development_dependency(%q<rspec>, ["~> 2.13.0"])
       s.add_development_dependency(%q<simplecov>, ["~> 0.7.0"])
     else
       s.add_dependency(%q<eventmachine>, ["~> 1.0"])
       s.add_dependency(%q<amqp>, ["~> 1.0"])
+      s.add_dependency(%q<sinatra>, [">= 0"])
       s.add_dependency(%q<bundler>, ["~> 1.3.0"])
       s.add_dependency(%q<jeweler>, ["~> 1.8.4"])
+      s.add_dependency(%q<pry>, [">= 0"])
       s.add_dependency(%q<rdoc>, ["~> 3.12"])
       s.add_dependency(%q<rspec>, ["~> 2.13.0"])
       s.add_dependency(%q<simplecov>, ["~> 0.7.0"])
@@ -59,8 +71,10 @@ Gem::Specification.new do |s|
   else
     s.add_dependency(%q<eventmachine>, ["~> 1.0"])
     s.add_dependency(%q<amqp>, ["~> 1.0"])
+    s.add_dependency(%q<sinatra>, [">= 0"])
     s.add_dependency(%q<bundler>, ["~> 1.3.0"])
     s.add_dependency(%q<jeweler>, ["~> 1.8.4"])
+    s.add_dependency(%q<pry>, [">= 0"])
     s.add_dependency(%q<rdoc>, ["~> 3.12"])
     s.add_dependency(%q<rspec>, ["~> 2.13.0"])
     s.add_dependency(%q<simplecov>, ["~> 0.7.0"])

@@ -4,9 +4,9 @@
 require "rubygems"
 require "amqp"
 
-require './lib/runner'
+require './lib/raq/runner'
 
-runner = Runner.new(ARGV)
+runner = Raq::Runner.new(ARGV)
 
 EventMachine.run do
   connection = AMQP.connect(runner.connection_options)

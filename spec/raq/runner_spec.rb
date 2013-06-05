@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'runner'
+require 'raq/runner'
 
 describe Runner do
   def argsv(command,arguments={})

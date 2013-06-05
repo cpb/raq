@@ -6,10 +6,10 @@ require "amqp"
 
 $LOAD_PATH << "./lib"
 
-require 'runner'
-require 'server'
+require 'raq/runner'
+require 'raq/server'
 
-runner = Runner.new(ARGV)
+runner = Raq::Runner.new(ARGV)
 
 require 'rack'
 require 'sinatra/base'
@@ -26,7 +26,7 @@ class Resty < Sinatra::Base
   end
 end
 
-server = Server.new(connection: runner.connection_options, queues: Array(runner.options[:queue])) do
+server = Raq::Server.new(connection: runner.connection_options, queues: Array(runner.options[:queue])) do
   resty = Resty.new
 
   run do |meta,payload|

@@ -1,21 +1,21 @@
 #!/usr/bin/env ruby
 # encoding: utf-8
 
-require "rubygems"
-require "amqp"
-
 $LOAD_PATH << "./lib"
 
-require 'runner'
-require 'server'
+require 'raq/runner'
+require 'raq/server'
 
-runner = Runner.new(ARGV)
+runner = Raq::Runner.new(ARGV)
 
 module Raq
   class Pryable < Struct.new(:app)
     def call(meta, payload)
-      binding.pry if payload == "pry"
-      self.app.call(meta, payload)
+      if payload == "pry"
+        binding.pry
+      else
+        self.app.call(meta,payload)
+      end
     end
   end
 
@@ -35,6 +35,7 @@ module Raq
       begin
         self.app.call(meta, payload)
         meta.ack
+        puts "acked #{payload}"
       rescue => e
         puts "Got #{e}, not acking"
       end
@@ -42,14 +43,14 @@ module Raq
   end
 end
 
-server = Server.new(connection: runner.connection_options, queues: Array(runner.options[:queue])) do
-  use Raq::Pryable
+server = Raq::Server.new(connection: runner.connection_options, queues: Array(runner.options[:queue])) do
   use Raq::QuickAck
   use Raq::FailureNack
+  use Raq::Pryable
 
   run do |meta,payload|
     puts "Received a message: #{meta} #{payload}"
-    raise "flaky ruby, you can't even scale" if rand(2) == 0
+    raise "flaky ruby, you can't even scale" if rand(5) == 0
   end
 end
 
