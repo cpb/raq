@@ -4,6 +4,7 @@ gem "eventmachine", "~> 1.0"
 gem "amqp", "~> 1.0"
 
 group :development do
+  gem 'sinatra'
   gem "bundler", "~> 1.3.0"
   gem "jeweler", "~> 1.8.4"
   gem "pry"
