@@ -10,9 +10,10 @@ describe Runner do
   end
 
   it "should parse options" do
-    runner = described_class.new(argsv("start",{host: "127.0.0.1"}))
+    runner = described_class.new(argsv("start",{host: "127.0.0.1", queue: "example.queue"}))
 
     expect(runner.options[:host]).to eql("127.0.0.1")
+    expect(runner.options[:queue]).to eql("example.queue")
   end
 
   it "should parse specified command" do
