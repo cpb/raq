@@ -10,12 +10,15 @@ runner = Runner.new(ARGV)
 
 EventMachine.run do
   connection = AMQP.connect(runner.connection_options)
+
   puts "Connected to AMQP broker. Running #{AMQP::VERSION} version of the gem..."
 
   channel  = AMQP::Channel.new(connection)
-  queue    = channel.queue(runner.options[:queue], :auto_delete => true)
+  queue    = channel.queue(runner.options[:queue], durable: true, auto_delete: false)
   exchange = channel.direct("")
 
-  exchange.publish "Hello, world!", :routing_key => queue.name
+  puts "publshing #{runner.command} to #{queue.name}"
+  exchange.publish runner.command, routing_key: queue.name, persistent: true
+
   EventMachine.add_timer(1) { connection.close { EventMachine.stop } }
 end

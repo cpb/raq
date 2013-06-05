@@ -4,19 +4,22 @@
 require "rubygems"
 require "amqp"
 
-require './lib/runner'
+$LOAD_PATH << "./lib"
+
+require 'runner'
+require 'server'
+
 runner = Runner.new(ARGV)
 
-EventMachine.run do
-  connection = AMQP.connect(runner.connection_options)
-  puts "Connected to AMQP broker. Running #{AMQP::VERSION} version of the gem..."
+server = Server.new(connection: runner.connection_options, queues: Array(runner.options[:queue])) do
+  run do |meta,payload|
+    puts "Received a message: #{meta} #{payload}"
 
-  channel  = AMQP::Channel.new(connection)
-  queue    = channel.queue(runner.options[:queue], :auto_delete => true)
-  exchange = channel.direct("")
-
-  queue.subscribe do |payload|
-    puts "Received a message: #{payload}. Disconnecting..."
-    connection.close { EventMachine.stop }
+    if payload == "ack me"
+      meta.ack
+    end
   end
 end
+
+server.run
+
