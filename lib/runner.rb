@@ -20,6 +20,8 @@ class Runner
       opts.on("-q", "--queue QUEUE","AMQP Queue to use") { |queue| @options[:queue] = queue }
       opts.on("-u", "--user USER","AMQP User to connect as") { |user| @options[:user] = user }
 
+      opts.on("-t", "--type TYPE","AMQP message type") { |type| @options[:type] = type }
+
       opts.on("-r", "--require LIBRARY","Require the provided library before starting") { |lib| require lib }
       # ... and on
     end
@@ -28,6 +30,6 @@ class Runner
   def parse!
     parser.parse! @argv
     @command = @argv.shift
-    @connection_options = @options.reject {|k,v| k == :queue}
+    @connection_options = @options.reject {|k,v| [:queue, :type].include?(k) }
   end
 end

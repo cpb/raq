@@ -18,7 +18,7 @@ EventMachine.run do
   exchange = channel.direct("")
 
   puts "publshing #{runner.command} to #{queue.name}"
-  exchange.publish runner.command, routing_key: queue.name, persistent: true
+  exchange.publish runner.command, routing_key: queue.name, persistent: true, type: runner.options[:type]
 
   EventMachine.add_timer(1) { connection.close { EventMachine.stop } }
 end
