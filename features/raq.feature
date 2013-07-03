@@ -12,10 +12,10 @@ Feature: Raq provides a friendly and familiar way of consuming messages off a du
       connection: runner.connection_options,
       queues: runner.options[:queue]) do
 
-      run do |meta, payload, connection|
+      run do |meta, payload|
         puts "Got #{payload}"
         meta.ack
-        connection.close { EventMachine.stop }
+        exit
       end
     end
 
@@ -34,7 +34,7 @@ Feature: Raq provides a friendly and familiar way of consuming messages off a du
       connection: runner.connection_options,
       queues: runner.options[:queue]) do
 
-      run do |meta, payload, connection|
+      run do |meta, payload|
         raise "Ahh! I'm going to die alone!"
       end
     end
@@ -48,10 +48,10 @@ Feature: Raq provides a friendly and familiar way of consuming messages off a du
       connection: runner.connection_options,
       queues: runner.options[:queue]) do
 
-      run do |meta, payload, connection|
+      run do |meta, payload|
         puts "Got #{payload}"
         meta.ack
-        connection.close { EventMachine.stop }
+        exit
       end
     end
 

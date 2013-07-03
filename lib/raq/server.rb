@@ -38,7 +38,7 @@ module Raq
     end
 
     def handle_message(meta, payload)
-      @app.call(meta,payload,self.connection)
+      @app.call(meta,payload)
     end
   end
 end
