@@ -73,16 +73,39 @@ module DependentServiceHelper
 end
 
 module AgentSessionHelper
-  def new_consumer_path
+
+  def current_message(new_message=nil)
+    with_messages do
+      @messages << new_message if new_message
+      @messages.last
+    end
+  end
+
+  def last_message
+    with_messages do
+      @messages.last
+    end
+  end
+
+  def with_messages
+    @messages ||= Array.new
+    yield
+  end
+
+  def new_consumer_path(fragment="consumer")
     with_consumers do
-      @consumers << "consumer#{@consumers.length}.rb"
+      @consumers << "#{fragment}#{@consumers.length}.rb"
       @consumers.last
     end
   end
 
-  def last_consumer_path
+  def last_consumer_path(fragment=nil)
     with_consumers do
-      @consumers.last
+      if fragment
+        @consumers.reverse.find {|c| c.include?(fragment)}
+      else
+        @consumers.last
+      end
     end
   end
 

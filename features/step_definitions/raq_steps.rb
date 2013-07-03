@@ -1,9 +1,29 @@
-A_CONSUMER = Transform /^a consumer$/ do |string|
-  new_consumer_path
+SOME_MESSAGE = Transform /^(?:a message "(.*?)"|(a unique message))$/ do |specific_message,unique_message|
+  if unique_message
+    current_message(Digest::MD5.new << Time.now.to_s << rand(10000).to_s)
+  else
+    current_message(specific_message)
+  end
 end
 
-THE_CONSUMER = Transform /^the consumer$/ do |string|
-  last_consumer_path
+EXPECT_SOME_MESSAGE = Transform /^the unique message$/ do |string|
+  last_message
+end
+
+A_CONSUMER = Transform /^a consumer(?: "(.*?)")?$/ do |possible_name|
+  if possible_name
+    new_consumer_path(possible_name)
+  else
+    new_consumer_path
+  end
+end
+
+THE_CONSUMER = Transform /^the consumer(?: "(.*?)")?$/ do |possible_name|
+  if possible_name
+    last_consumer_path(possible_name)
+  else
+    last_consumer_path
+  end
 end
 
 Given(/^a raq agent file named "(.*?)" with:$/) do |name, content|
@@ -18,7 +38,7 @@ Given(/^a raq agent file named "(.*?)" with:$/) do |name, content|
   }
 end
 
-Given(/^I produce a message "(.*?)" on the queue "(.*?)"$/) do |message, queue|
+Given(/^I produce (#{SOME_MESSAGE}) on the queue "(.*?)"$/) do |message, queue|
   steps %{
     Given a raq agent file named "producer.rb" with:
     """
@@ -43,6 +63,10 @@ Given(/^I produce a message "(.*?)" on the queue "(.*?)"$/) do |message, queue|
   }
 end
 
+# Given(/^a consumer "(.*?)" with:$/) do |arg1, string|
+#     pending # express the regexp above with the code you wish you had
+# end
+
 Given(/^(#{A_CONSUMER}) with:$/) do |consumer_path, consumer_implementation|
   steps %{
     Given a raq agent file named "#{consumer_path}" with:
@@ -52,18 +76,29 @@ Given(/^(#{A_CONSUMER}) with:$/) do |consumer_path, consumer_implementation|
   }
 end
 
-When(/^I run the raq agent "(.*?)"$/) do |agent_run_string|
+When(/^I run the raq agent "(.*?)"(, failing)?$/) do |agent_run_string, failing|
   begin
     steps %{
-      When I successfully run `ruby -I#{load_path} #{agent_run_string}`
+      When I #{'successfully ' unless failing}run `ruby -I#{load_path} #{agent_run_string}`
     }
+    if failing
+      steps %{
+        Then the exit status should not be 0
+      }
+    end
   rescue => e
     pry(binding)
   end
 end
 
-When(/^I run (#{THE_CONSUMER}) on the queue "(.*?)"$/) do |consumer, queue|
+When(/^I run (#{THE_CONSUMER}) on the queue "(.*?)"(, failing)?$/) do |consumer, queue, failing|
   steps %{
-    When I run the raq agent "#{consumer} --queue #{queue}"
+    When I run the raq agent "#{consumer} --queue #{queue}"#{failing}
   }
+end
+
+Then(/^the output should contain (#{EXPECT_SOME_MESSAGE})$/) do |message|
+  steps %{
+    Then the output should contain "#{message}"
+}
 end

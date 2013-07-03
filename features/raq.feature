@@ -23,3 +23,40 @@ Feature: Raq provides a friendly and familiar way of consuming messages off a du
     """
     When I run the consumer on the queue "single.queue"
     Then the output should contain "Got Hello"
+
+  @amqp
+  Scenario: An agent crashes, another receives the message
+    Given I produce a unique message on the queue "single.queue"
+    And a consumer "crasher" with:
+    """
+    runner = Raq::Runner.new(ARGV)
+    server = Raq::Server.new(
+      connection: runner.connection_options,
+      queues: runner.options[:queue]) do
+
+      run do |meta, payload, connection|
+        raise "Ahh! I'm going to die alone!"
+      end
+    end
+
+    server.run
+    """
+    And a consumer with:
+    """
+    runner = Raq::Runner.new(ARGV)
+    server = Raq::Server.new(
+      connection: runner.connection_options,
+      queues: runner.options[:queue]) do
+
+      run do |meta, payload, connection|
+        puts "Got #{payload}"
+        meta.ack
+        connection.close { EventMachine.stop }
+      end
+    end
+
+    server.run
+    """
+    And I run the consumer "crasher" on the queue "single.queue", failing
+    When I run the consumer on the queue "single.queue"
+    Then the output should contain the unique message
