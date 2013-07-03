@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'raq/runner'
 
-describe Runner do
+describe Raq::Runner do
   def argsv(command,arguments={})
     arguments.inject([command]) do |m, (key,value)|
       m << "--#{key}"
@@ -68,7 +68,7 @@ describe Runner do
 
   it "should require file" do
     expect do
-      Runner.new(%w(start -r unexisting))
+      Raq::Runner.new(%w(start -r unexisting))
     end.to raise_error(LoadError)
   end
 
@@ -77,7 +77,7 @@ describe Runner do
   it "should default debug, silent and trace to false"
 end
 
-describe Runner, "with config file" do
+describe Raq::Runner, "with config file" do
   it "should load options from file"
   it "should change directory after loading config"
 end

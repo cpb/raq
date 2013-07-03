@@ -31,15 +31,14 @@ module Raq
       @connection = AMQP.connect(self.connection_options)
       @channel    = AMQP::Channel.new(@connection)
       #@channel.prefetch(1)
-      @queues     = self.queue_names.collect do |queue_name|
-        puts "listening to #{queue_name}"
+      @queues     = Array(self.queue_names).collect do |queue_name|
         queue = @channel.queue(queue_name, durable: true, auto_delete: false)
         queue.subscribe(ack: true, &method(:handle_message))
       end
     end
 
     def handle_message(meta, payload)
-      @app.call(meta,payload)
+      @app.call(meta,payload,self.connection)
     end
   end
 end
