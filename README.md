@@ -1,4 +1,4 @@
-Raq [![Build Status](https://travis-ci.org/cpb/raq.png?branch=master)](https://travis-ci.org/cpb/raq) [![Dependency Status](https://gemnasium.com/cpb/raq.png)](https://gemnasium.com/cpb/raq) [![Code Climate](https://codeclimate.com/github/cpb/raq.png)](https://codeclimate.com/github/cpb/raq)
+Raq [![Build Status](https://travis-ci.org/cpb/raq.png?branch=master)](https://travis-ci.org/cpb/raq) [![Dependency Status](https://gemnasium.com/cpb/raq.png)](https://gemnasium.com/cpb/raq) [![Code Climate](https://codeclimate.com/repos/51d5c98289af7e2eda089f9a/badges/f4cb8a49dee9210b9775/gpa.png)](https://codeclimate.com/repos/51d5c98289af7e2eda089f9a/feed)
 =====
 
 Description goes here.
