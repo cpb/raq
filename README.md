@@ -1,9 +1,10 @@
-= raq
+Raq [![Build Status](https://travis-ci.org/cpb/raq.png?branch=master)](https://travis-ci.org/cpb/raq) [![Dependency Status](https://gemnasium.com/cpb/raq.png)](https://gemnasium.com/cpb/raq) [![Code Climate](https://codeclimate.com/github/cpb/raq.png)](https://codeclimate.com/github/cpb/raq)
+=====
 
 Description goes here.
 
 == Contributing to raq
- 
+
 * Check out the latest master to make sure the feature hasn't been implemented or the bug hasn't been fixed yet.
 * Check out the issue tracker to make sure someone already hasn't requested it and/or contributed it.
 * Fork the project.
