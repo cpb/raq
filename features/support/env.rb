@@ -35,7 +35,7 @@ module CoverageHelper
     SimpleCov.command_name(#{path.inspect})
     SimpleCov.start
     SimpleCov.root(#{File.join(File.dirname(__FILE__),'..','..').inspect})
-    }
+    } unless ENV.has_key?('ARUBA_REPORT_DIR')
   end
 end
 
