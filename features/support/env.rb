@@ -43,6 +43,10 @@ module RaqUnderTestHelper
   def load_path
     File.dirname(__FILE__) + '/../../lib'
   end
+
+  def full_current_dir
+    File.expand_path(File.dirname(__FILE__) + '/../../' + current_dir)
+  end
 end
 
 module DependentServiceHelper
@@ -73,6 +77,29 @@ module DependentServiceHelper
 end
 
 module AgentSessionHelper
+
+  def new_queue(name=nil)
+    with_queues do
+      queue_name = name || (Digest::MD5.new << Time.now.to_s << rand(1000).to_s)
+      if @queues.include?(queue_name)
+        queue_name
+      else
+        @queues << queue_name
+        @queues.last
+      end
+    end
+  end
+
+  def last_queue
+    with_queues do
+      @queues.last
+    end
+  end
+
+  def with_queues
+    @queues ||= Array.new
+    yield
+  end
 
   def current_message(new_message=nil)
     with_messages do

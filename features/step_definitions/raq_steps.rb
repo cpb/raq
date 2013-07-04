@@ -1,3 +1,13 @@
+QUEUE = Transform /^(?:the queue(?: "(.*?)")?|(a new queue))$/ do |named_queue,make_a_new_queue|
+  if named_queue
+    new_queue(named_queue)
+  elsif make_a_new_queue
+    new_queue
+  else
+    last_queue
+  end
+end
+
 SOME_MESSAGE = Transform /^(?:a message "(.*?)"|(a unique message))$/ do |specific_message,unique_message|
   if unique_message
     current_message(Digest::MD5.new << Time.now.to_s << rand(10000).to_s)
@@ -38,7 +48,7 @@ Given(/^a raq agent file named "(.*?)" with:$/) do |name, content|
   }
 end
 
-Given(/^I produce (#{SOME_MESSAGE}) on the queue "(.*?)"$/) do |message, queue|
+Given(/^I produce (#{SOME_MESSAGE}) on (#{QUEUE})/) do |message, queue|
   steps %{
     Given a raq agent file named "producer.rb" with:
     """
@@ -63,10 +73,6 @@ Given(/^I produce (#{SOME_MESSAGE}) on the queue "(.*?)"$/) do |message, queue|
   }
 end
 
-# Given(/^a consumer "(.*?)" with:$/) do |arg1, string|
-#     pending # express the regexp above with the code you wish you had
-# end
-
 Given(/^(#{A_CONSUMER}) with:$/) do |consumer_path, consumer_implementation|
   steps %{
     Given a raq agent file named "#{consumer_path}" with:
@@ -76,29 +82,46 @@ Given(/^(#{A_CONSUMER}) with:$/) do |consumer_path, consumer_implementation|
   }
 end
 
-When(/^I run the raq agent "(.*?)"(, failing)?$/) do |agent_run_string, failing|
-  begin
+When(/^I run the raq agent "(.*?)"(, failing)?(, again)?$/) do |agent_run_string, failing, again|
+  running = lambda do
     steps %{
-      When I #{'successfully ' unless failing}run `ruby -I#{load_path} #{agent_run_string}`
+      When I #{'successfully ' unless failing || again}run `ruby -I#{full_current_dir} -I#{load_path} #{agent_run_string}`
     }
+
     if failing
       steps %{
         Then the exit status should not be 0
       }
     end
-  rescue => e
-    pry(binding)
+  end
+
+  if again
+    expect(&running).to raise_error(ChildProcess::TimeoutError)
+  else
+    running.call
   end
 end
 
-When(/^I run (#{THE_CONSUMER}) on the queue "(.*?)"(, failing)?$/) do |consumer, queue, failing|
+When(/^I run (#{THE_CONSUMER}) on (#{QUEUE})(, failing)?(, again)?$/) do |consumer, queue, failing, again|
   steps %{
-    When I run the raq agent "#{consumer} --queue #{queue}"#{failing}
+    When I run the raq agent "#{consumer} --queue #{queue}"#{failing}#{again}
   }
 end
 
 Then(/^the output should contain (#{EXPECT_SOME_MESSAGE})$/) do |message|
   steps %{
     Then the output should contain "#{message}"
-}
+  }
+end
+
+Then(/^it should never return$/) do
+  expect do
+    Timeout::timeout(exit_timeout) do
+      loop do
+        assert_not_exit_status(0)
+        assert_not_exit_status(1)
+        sleep(0.1)
+      end
+    end
+  end.to raise_error(Timeout::Error)
 end
