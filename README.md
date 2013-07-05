@@ -3,7 +3,7 @@ Raq [![Build Status](https://travis-ci.org/cpb/raq.png?branch=master)](https://t
 
 Raq makes it easy to create durable message queue consumers. It tries to learn from [Thin](https://github.com/macournoyer/thin) and [Rack](https://github.com/rack/rack) in order to provide a reasonably familiar way of creating and running AMQP consumers.
 
-Raq expresses the opinion that, like database configuration, queue configuration should be configured by the environment. Raq offers the ability to specify message broker connection information and queue names as command line flags, or in an separate configuration file.
+Raq expresses the opinion that, like database configuration, queue configuration should handled by the environment. Raq offers the ability to specify message broker connection information and queue names as command line flags, or in a separate configuration file.
 
 Installation
 ------------
@@ -65,7 +65,8 @@ $ ruby example.rb --queue a.queue.with.messages
 
 It will print the payload to stdout a couple times, acknowledge the message, and exit.
 
-== Contributing to raq
+Contributing to Raq
+-------------------
 
 * Check out the latest master to make sure the feature hasn't been implemented or the bug hasn't been fixed yet.
 * Check out the issue tracker to make sure someone already hasn't requested it and/or contributed it.
@@ -75,7 +76,8 @@ It will print the payload to stdout a couple times, acknowledge the message, and
 * Make sure to add tests for it. This is important so I don't break it in a future version unintentionally.
 * Please try not to mess with the Rakefile, version, or history. If you want to have your own version, or is otherwise necessary, that is fine, but please isolate to its own commit so I can cherry-pick around it.
 
-== Copyright
+Copyright
+---------
 
 Copyright (c) 2013 Caleb Buxton. See LICENSE.txt for further details.
 
