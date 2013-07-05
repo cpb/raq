@@ -44,6 +44,7 @@ Feature: Raq provides a friendly and familiar way of consuming messages off a du
     And a consumer with:
     """
     runner = Raq::Runner.new(ARGV)
+
     server = Raq::Server.new(
       connection: runner.connection_options,
       queues: runner.options[:queue]) do
@@ -76,11 +77,7 @@ Feature: Raq provides a friendly and familiar way of consuming messages off a du
     """
     And a consumer with:
     """
-    begin
-      require 'always_ack'
-    rescue LoadError => e
-      puts $LOAD_PATH
-    end
+    require 'always_ack'
 
     runner = Raq::Runner.new(ARGV)
     server = Raq::Server.new(

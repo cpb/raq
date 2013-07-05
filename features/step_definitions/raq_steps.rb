@@ -37,14 +37,11 @@ THE_CONSUMER = Transform /^the consumer(?: "(.*?)")?$/ do |possible_name|
 end
 
 Given(/^a raq agent file named "(.*?)" with:$/) do |name, content|
-  steps %{
-    Given a file named "#{name}" with:
-    """
-    #{simplecov_for(name)}
-    require 'raq'
+  step %{a file named "#{name}" with:},%{
+#{simplecov_for(name)}
+require 'raq'
 
-    #{content}
-    """
+#{content}
   }
 end
 
@@ -74,12 +71,7 @@ Given(/^I produce (#{SOME_MESSAGE}) on (#{QUEUE})/) do |message, queue|
 end
 
 Given(/^(#{A_CONSUMER}) with:$/) do |consumer_path, consumer_implementation|
-  steps %{
-    Given a raq agent file named "#{consumer_path}" with:
-    """
-    #{consumer_implementation}
-    """
-  }
+  step %{a raq agent file named "#{consumer_path}" with:},consumer_implementation
 end
 
 When(/^I run the raq agent "(.*?)"(, failing)?(, again)?$/) do |agent_run_string, failing, again|
@@ -124,4 +116,5 @@ Then(/^it should never return$/) do
       end
     end
   end.to raise_error(Timeout::Error)
+  terminate_processes!
 end
