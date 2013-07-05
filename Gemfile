@@ -10,7 +10,7 @@ group :development do
   gem "guard-cucumber", "~> 1.4.0"
   gem "guard-rspec", "~> 3.0.2"
   gem "pry", "~> 0.9.12"
-  gem "rdoc", "~> 3.12"
+  gem "rdoc", "~> 4.0.0"
   gem "rdiscount", "~> 2.1.6"
   gem "travis-lint", "~> 1.7.0"
 end
