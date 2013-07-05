@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = "raq"
-  s.version = "0.1.0"
+  s.version = "0.1.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Caleb Buxton"]
-  s.date = "2013-07-04"
+  s.date = "2013-07-05"
   s.description = "The elegance of Rack with none of the unreliability of HTTP"
   s.email = "me@cpb.ca"
   s.extra_rdoc_files = [
@@ -27,6 +27,7 @@ Gem::Specification.new do |s|
     "README.md",
     "Rakefile",
     "VERSION",
+    "features/README.md.feature",
     "features/raq.feature",
     "features/step_definitions/raq_steps.rb",
     "features/support/env.rb",
@@ -57,33 +58,39 @@ Gem::Specification.new do |s|
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
       s.add_runtime_dependency(%q<eventmachine>, ["~> 1.0"])
       s.add_runtime_dependency(%q<amqp>, ["~> 1.0"])
+      s.add_development_dependency(%q<bcat>, ["~> 0.6.2"])
       s.add_development_dependency(%q<bundler>, ["~> 1.3.0"])
       s.add_development_dependency(%q<guard>, ["~> 1.8.0"])
       s.add_development_dependency(%q<guard-cucumber>, ["~> 1.4.0"])
       s.add_development_dependency(%q<guard-rspec>, ["~> 3.0.2"])
       s.add_development_dependency(%q<pry>, ["~> 0.9.12"])
       s.add_development_dependency(%q<rdoc>, ["~> 3.12"])
+      s.add_development_dependency(%q<rdiscount>, ["~> 2.1.6"])
       s.add_development_dependency(%q<travis-lint>, ["~> 1.7.0"])
     else
       s.add_dependency(%q<eventmachine>, ["~> 1.0"])
       s.add_dependency(%q<amqp>, ["~> 1.0"])
+      s.add_dependency(%q<bcat>, ["~> 0.6.2"])
       s.add_dependency(%q<bundler>, ["~> 1.3.0"])
       s.add_dependency(%q<guard>, ["~> 1.8.0"])
       s.add_dependency(%q<guard-cucumber>, ["~> 1.4.0"])
       s.add_dependency(%q<guard-rspec>, ["~> 3.0.2"])
       s.add_dependency(%q<pry>, ["~> 0.9.12"])
       s.add_dependency(%q<rdoc>, ["~> 3.12"])
+      s.add_dependency(%q<rdiscount>, ["~> 2.1.6"])
       s.add_dependency(%q<travis-lint>, ["~> 1.7.0"])
     end
   else
     s.add_dependency(%q<eventmachine>, ["~> 1.0"])
     s.add_dependency(%q<amqp>, ["~> 1.0"])
+    s.add_dependency(%q<bcat>, ["~> 0.6.2"])
     s.add_dependency(%q<bundler>, ["~> 1.3.0"])
     s.add_dependency(%q<guard>, ["~> 1.8.0"])
     s.add_dependency(%q<guard-cucumber>, ["~> 1.4.0"])
     s.add_dependency(%q<guard-rspec>, ["~> 3.0.2"])
     s.add_dependency(%q<pry>, ["~> 0.9.12"])
     s.add_dependency(%q<rdoc>, ["~> 3.12"])
+    s.add_dependency(%q<rdiscount>, ["~> 2.1.6"])
     s.add_dependency(%q<travis-lint>, ["~> 1.7.0"])
   end
 end
