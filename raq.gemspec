@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = "raq"
-  s.version = "0.1.1"
+  s.version = "0.1.2"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Caleb Buxton"]
@@ -64,7 +64,7 @@ Gem::Specification.new do |s|
       s.add_development_dependency(%q<guard-cucumber>, ["~> 1.4.0"])
       s.add_development_dependency(%q<guard-rspec>, ["~> 3.0.2"])
       s.add_development_dependency(%q<pry>, ["~> 0.9.12"])
-      s.add_development_dependency(%q<rdoc>, ["~> 3.12"])
+      s.add_development_dependency(%q<rdoc>, ["~> 4.0.0"])
       s.add_development_dependency(%q<rdiscount>, ["~> 2.1.6"])
       s.add_development_dependency(%q<travis-lint>, ["~> 1.7.0"])
     else
@@ -76,7 +76,7 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<guard-cucumber>, ["~> 1.4.0"])
       s.add_dependency(%q<guard-rspec>, ["~> 3.0.2"])
       s.add_dependency(%q<pry>, ["~> 0.9.12"])
-      s.add_dependency(%q<rdoc>, ["~> 3.12"])
+      s.add_dependency(%q<rdoc>, ["~> 4.0.0"])
       s.add_dependency(%q<rdiscount>, ["~> 2.1.6"])
       s.add_dependency(%q<travis-lint>, ["~> 1.7.0"])
     end
@@ -89,7 +89,7 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<guard-cucumber>, ["~> 1.4.0"])
     s.add_dependency(%q<guard-rspec>, ["~> 3.0.2"])
     s.add_dependency(%q<pry>, ["~> 0.9.12"])
-    s.add_dependency(%q<rdoc>, ["~> 3.12"])
+    s.add_dependency(%q<rdoc>, ["~> 4.0.0"])
     s.add_dependency(%q<rdiscount>, ["~> 2.1.6"])
     s.add_dependency(%q<travis-lint>, ["~> 1.7.0"])
   end
