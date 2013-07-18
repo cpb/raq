@@ -27,6 +27,21 @@ Jeweler::RubygemsDotOrgTasks.new
 
 require 'cucumber/rake/task'
 Cucumber::Rake::Task.new(:features)
+Cucumber::Rake::Task.new(:aruba_features) do |t|
+  t.cucumber_opts = "ARUBA_REPORT_DIR=doc --format progress"
+end
+
+task :aruba_doc => [:check_aruba_doc_dependencies, :aruba_features]
+
+task :check_aruba_doc_dependencies do
+  unless system('pygmentize',[:err,:out]=>"/dev/null")
+    puts "Generating Aruba Reports depends on Pygments."
+    puts "Check http://pygments.org/"
+    puts "Or you can just try `easy_install Pygments`"
+    puts
+    raise "You do not have all the dependencies required to generate Aruba Reports"
+  end
+end
 
 require 'rspec/core'
 require 'rspec/core/rake_task'
@@ -50,3 +65,5 @@ Rake::RDocTask.new do |rdoc|
   rdoc.rdoc_files.include('README*')
   rdoc.rdoc_files.include('lib/**/*.rb')
 end
+
+task :doc => [:rdoc,:aruba_doc]
