@@ -49,6 +49,31 @@ describe Raq::Runner do
     # broker=>nil
     # frame_max=>131072
     # heartbeat=>0}"
+
+    it "should parse config file" do
+      expect do
+        runner = described_class.new(%w(start --config path/to/file))
+      end.to_not raise_error(OptionParser::InvalidOption)
+    end
+  end
+
+  context "configuration file" do
+
+    # First time used it creates the configuration file.
+    # Each time accessed it returns the filename.
+    let(:configuration_file) do
+      File.open("foobar.yml","w") do |f|
+        f.write(YAML::dump({
+        "queue" => "queue.name"
+        }))
+        f.path
+      end
+    end
+
+    it "should be used to set values" do
+      runner = described_class.new(%w(start --config) << configuration_file)
+      expect(runner.options[:queue]).to eql("queue.name")
+    end
   end
 
   it "should parse specified command" do

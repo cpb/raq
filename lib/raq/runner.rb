@@ -1,4 +1,5 @@
 require 'optparse'
+require 'yaml'
 
 module Raq
   class Runner
@@ -25,13 +26,28 @@ module Raq
 
         opts.on("-r", "--require LIBRARY","Require the provided library before starting") { |lib| require lib }
         # ... and on
+
+        opts.on("-C", "--config CONFIG.YML", "YAML file containing Raq configuration") { |path| @options[:config] = path }
       end
     end
 
     def parse!
       parser.parse! @argv
+      # Defaults < Configuration File < Command line arguments
+
+      @options = symbolized_configuration_file_data(@options.delete(:config)).merge(@options)
+
       @command = @argv.shift
       @connection_options = @options.reject {|k,v| [:queue, :type].include?(k) }
+    end
+
+    private
+    def symbolized_configuration_file_data(configuration_file_path=nil)
+      if configuration_file_path
+        ::YAML::load_file(configuration_file_path).inject({}){|memo,(k,v)| memo.merge(k.to_sym => v)}
+      else
+        {}
+      end
     end
   end
 end
