@@ -97,3 +97,32 @@ Feature: Raq provides a friendly and familiar way of consuming messages off a du
     And I run the consumer on the queue
     When I run the consumer on the queue, again
     Then it should never return
+
+  @amqp
+  Scenario: Running raq with a configuration file
+    Given a file named "raq.yml" with:
+    """
+    ---
+    queue: RabbitEmergencyRoom
+    """
+    And a consumer with:
+    """
+    runner = Raq::Runner.new(ARGV)
+    server = Raq::Server.new(
+      connection: runner.connection_options,
+      queues: runner.options[:queue]) do
+
+      run do |meta, payload|
+        puts "Got #{payload}"
+        meta.ack
+        server.connection.close { EM.stop }
+      end
+    end
+
+    server.run
+    """
+    And I produce a unique message on the queue "RabbitEmergencyRoom"
+    When I run the consumer with "--config raq.yml"
+    Then the output should contain the unique message
+
+

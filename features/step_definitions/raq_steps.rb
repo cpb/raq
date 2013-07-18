@@ -94,6 +94,12 @@ When(/^I run the raq agent "(.*?)"(, failing)?(, again)?$/) do |agent_run_string
   end
 end
 
+When(/^I run (#{THE_CONSUMER}) with "(.*?)"$/) do |consumer, arguments|
+  steps %{
+    When I run the raq agent "#{consumer} #{arguments}"
+  }
+end
+
 When(/^I run (#{THE_CONSUMER}) on (#{QUEUE})(, failing)?(, again)?$/) do |consumer, queue, failing, again|
   steps %{
     When I run the raq agent "#{consumer} --queue #{queue}"#{failing}#{again}
