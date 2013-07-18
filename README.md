@@ -65,6 +65,25 @@ $ ruby example.rb --queue a.queue.with.messages
 
 It will print the payload to stdout a couple times, acknowledge the message, and exit.
 
+Configuration
+-------------
+
+You can choose to configure Raq with either commandline flags or a configuration file. The configuration file is a simple YAML file. The keys should be the same as the long form commandline flags.
+
+For example, consider this sample.yml:
+
+```yaml
+--
+queue: RabbitEmergencyRoom
+```
+
+When you run the above example.rb like so:
+```bash
+$ ruby example.rb --config sample.yml
+```
+
+It will connect to the ```RabbitEmergencyRoom``` queue!
+
 Contributing to Raq
 -------------------
 
