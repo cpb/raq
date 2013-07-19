@@ -2,5 +2,7 @@ language: ruby
 bundler_args: --without development
 rvm:
   - 1.9.3
+services:
+  - rabbitmq
 notifications:
   hipchat: f99d2e5a191d805ae29ae7b5811eea@AZ dev

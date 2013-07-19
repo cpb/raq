@@ -50,8 +50,12 @@ module RaqUnderTestHelper
 end
 
 module DependentServiceHelper
+  def travis?
+    ENV['TRAVIS'] == 'true'
+  end
+
   def start_amqp
-    unless rabbitmq_running?
+    unless travis? || rabbitmq_running?
       system("rabbitmq-server &", out: "/dev/null", err: "/dev/null")
       unless system("rabbitmqctl wait /usr/local/var/lib/rabbitmq/mnesia/rabbit@localhost.pid", out: "/dev/null", err: "/dev/null")
         raise "Unable to start rabbitmq"
@@ -66,7 +70,7 @@ module DependentServiceHelper
   end
 
   def stop_amqp
-    if rabbitmq_running?
+    if !travis? && rabbitmq_running?
       unless system("rabbitmqctl stop", out: "/dev/null", err: "/dev/null")
         raise "Unable to stop rabbitmq"
       else
