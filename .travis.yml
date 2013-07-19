@@ -5,4 +5,4 @@ rvm:
 services:
   - rabbitmq
 notifications:
-  hipchat: f99d2e5a191d805ae29ae7b5811eea@AZ dev
+  #hipchat: f99d2e5a191d805ae29ae7b5811eea@AZ dev

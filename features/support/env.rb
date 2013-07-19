@@ -66,7 +66,7 @@ module DependentServiceHelper
   end
 
   def rabbitmq_running?
-    system("rabbitmqctl status", out: "/dev/null", err: "/dev/null")
+    system("rabbitmqctl status", err: :out, out: STDOUT)
   end
 
   def stop_amqp
